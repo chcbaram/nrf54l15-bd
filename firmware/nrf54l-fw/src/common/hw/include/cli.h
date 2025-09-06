@@ -8,7 +8,7 @@ extern "C" {
 #include "hw_def.h"
 
 
-#define CLI_USE(module)       ((_USE_CLI_ ## module) && defined(_USE_HW_CLI))
+#define CLI_USE(module)       (_USE_CLI_ ## module)
 
 #ifdef _USE_HW_CLI
 
@@ -41,7 +41,6 @@ bool cliMain(void);
 void cliPrintf(const char *fmt, ...);
 bool cliAdd(const char *cmd_str, void (*p_func)(cli_args_t *));
 bool cliKeepLoop(void);
-void cliLoopIdle(void);
 void cliPutch(uint8_t data);
 uint8_t  cliGetPort(void);
 uint32_t cliAvailable(void);
@@ -51,6 +50,7 @@ bool cliRunStr(const char *fmt, ...);
 void cliShowCursor(bool visibility);
 void cliMoveUp(uint8_t y);
 void cliMoveDown(uint8_t y);
+void cliBegin(void);
 
 #endif
 

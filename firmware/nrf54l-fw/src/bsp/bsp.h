@@ -13,7 +13,7 @@ extern "C" {
 
 
 void logPrintf(const char *fmt, ...);
-
+// #define logPrintf printf
 
 
 bool bspInit(void);
