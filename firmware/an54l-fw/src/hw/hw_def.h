@@ -5,8 +5,8 @@
 #include "bsp.h"
 
 
-#define _DEF_FIRMWATRE_VERSION      "V241115R1"
-#define _DEF_BOARD_NAME             "BARAM-QMK-H7S-FW"
+#define _DEF_FIRMWATRE_VERSION      "V250913R1"
+#define _DEF_BOARD_NAME             "AN54L15-FW"
 
 
 
@@ -14,6 +14,8 @@
 
 #define _HW_DEF_RTOS_THREAD_MEM_UART          (2*1024)
 
+
+#define _USE_HW_QSPI
 
 
 #define _USE_HW_LED
@@ -47,7 +49,7 @@
 //
 #define _USE_CLI_HW_UART            1
 #define _USE_CLI_HW_BUTTON          1
-
+#define _USE_CLI_HW_QSPI            1
 
 typedef enum
 {

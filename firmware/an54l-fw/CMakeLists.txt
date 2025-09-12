@@ -33,3 +33,5 @@ target_include_directories(app PRIVATE
   src/hw
   src/lib
 )
+
+zephyr_library_include_directories(${ZEPHYR_BASE}/drivers/flash)
