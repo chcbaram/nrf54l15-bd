@@ -15,6 +15,8 @@
 #define _HW_DEF_RTOS_THREAD_MEM_UART          (2*1024)
 
 
+#define _USE_HW_QSPI
+
 
 #define _USE_HW_LED
 #define      HW_LED_MAX_CH          1
@@ -47,6 +49,7 @@
 //
 #define _USE_CLI_HW_UART            1
 #define _USE_CLI_HW_BUTTON          1
+#define _USE_CLI_HW_QSPI            1
 
 
 typedef enum

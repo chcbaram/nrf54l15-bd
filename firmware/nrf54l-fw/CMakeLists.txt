@@ -3,6 +3,10 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
 project(nrf54l-fw)
 
+
+zephyr_library_include_directories(${ZEPHYR_BASE}/drivers/flash)
+
+
 # 지정한 폴더에 있는 파일만 포함한다.
 #
 file(GLOB SRC_FILES CONFIGURE_DEPENDS

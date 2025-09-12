@@ -7,6 +7,7 @@ LOG_MODULE_REGISTER(nrf54l_fw, LOG_LEVEL_DBG);
 
 
 
+
 void apInit(void)
 {  
   logBoot(false);
@@ -34,4 +35,3 @@ void apMain(void)
     delay(5);
   }
 }
-
