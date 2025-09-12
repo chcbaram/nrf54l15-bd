@@ -5,8 +5,8 @@
 #include "bsp.h"
 
 
-#define _DEF_FIRMWATRE_VERSION      "V241115R1"
-#define _DEF_BOARD_NAME             "BARAM-QMK-H7S-FW"
+#define _DEF_FIRMWATRE_VERSION      "V250912R1"
+#define _DEF_BOARD_NAME             "NRF54L15-FW"
 
 
 
@@ -39,9 +39,23 @@
 #define      HW_LOG_BOOT_BUF_MAX    2048
 #define      HW_LOG_LIST_BUF_MAX    4096
 
+#define _USE_HW_BUTTON
+#define      HW_BUTTON_MAX_CH       BUTTON_PIN_MAX
+
 
 //-- CLI
 //
 #define _USE_CLI_HW_UART            1
+#define _USE_CLI_HW_BUTTON          1
+
+
+typedef enum
+{
+  BTN0,
+  BTN1,
+  BTN2,
+  BTN3,
+  BUTTON_PIN_MAX,  
+} ButtonPinName_t;
 
 #endif
