@@ -1,0 +1,8 @@
+board:
+  name: NRF54L15_BD
+  vendor: baram
+  socs:
+  - name: nrf54l15
+    variants:
+    - name: xip
+      cpucluster: cpuflpr
