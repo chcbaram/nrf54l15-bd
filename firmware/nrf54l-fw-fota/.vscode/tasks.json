@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+  "tasks": [
+    {
+      "label": "download",
+      "type": "shell",
+      "command": "pyocd flash ./build/nrf54l-fw/zephyr/zephyr.signed.hex -t nrf54l",
+      "problemMatcher": [],
+    }, 
+
+  ]
+}

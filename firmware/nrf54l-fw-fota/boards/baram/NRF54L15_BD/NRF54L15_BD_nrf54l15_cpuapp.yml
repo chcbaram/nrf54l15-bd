@@ -1,0 +1,10 @@
+identifier: NRF54L15_BD/nrf54l15/cpuapp
+name: nrf54l15_bd
+vendor: baram
+arch: arm
+toolchain:
+  - zephyr
+sysbuild: true
+ram: 188
+flash: 1428
+supported: []

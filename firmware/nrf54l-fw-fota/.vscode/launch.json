@@ -1,0 +1,31 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+    {
+      "cwd": "${workspaceFolder}",
+      "executable": "build/mcuboot/zephyr/zephyr.elf",
+      "name": "Debug BOOT with PyOCD",
+      "request": "launch",
+      "type": "cortex-debug",
+      "serverArgs": [
+        "--target", "nrf54l",     
+      ],
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "none",
+      "servertype": "pyocd"
+    },    
+    {
+      "cwd": "${workspaceFolder}",
+      "executable": "build/nrf54l-fw/zephyr/zephyr.elf",
+      "name": "Debug with PyOCD",
+      "request": "launch",
+      "type": "cortex-debug",
+      "serverArgs": [
+        "--target", "nrf54l",     
+      ],
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "none",
+      "servertype": "pyocd"
+    }
+	]
+}

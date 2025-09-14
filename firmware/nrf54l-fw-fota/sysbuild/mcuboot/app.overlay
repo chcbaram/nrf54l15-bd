@@ -1,0 +1,8 @@
+
+/ {
+	chosen {
+		zephyr,code-partition = &boot_partition;
+	};
+};
+
+/delete-node/ &sqspi;
