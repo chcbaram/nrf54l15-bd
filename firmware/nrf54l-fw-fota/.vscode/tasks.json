@@ -4,7 +4,7 @@
     {
       "label": "download",
       "type": "shell",
-      "command": "pyocd flash ./build/nrf54l-fw/zephyr/zephyr.signed.hex -t nrf54l",
+      "command": "pyocd flash ./build/nrf54l-fw-fota-test/zephyr/zephyr.signed.hex -t nrf54l",
       "problemMatcher": [],
     }, 
 

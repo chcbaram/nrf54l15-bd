@@ -242,7 +242,6 @@ static struct bt_conn_auth_info_cb conn_auth_info_callbacks;
 static void bt_receive_cb(struct bt_conn *conn, const uint8_t *const data,
                           uint16_t len)
 {
-  int  err;
   char addr[BT_ADDR_LE_STR_LEN] = {0};
 
   bt_addr_le_to_str(bt_conn_get_dst(conn), addr, ARRAY_SIZE(addr));
@@ -305,8 +304,7 @@ void button_changed(uint32_t button_state, uint32_t has_changed)
 
 bool bleUartInit(void)
 {
-  int blink_status = 0;
-  int err          = 0;
+  int err = 0;
 
 
   if (IS_ENABLED(CONFIG_BT_NUS_SECURITY_ENABLED))

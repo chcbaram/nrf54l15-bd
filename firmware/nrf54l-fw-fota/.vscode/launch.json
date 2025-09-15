@@ -13,7 +13,7 @@
       "runToEntryPoint": "main",
       "showDevDebugOutput": "none",
       "servertype": "pyocd"
-    },    
+    },
     {
       "cwd": "${workspaceFolder}",
       "executable": "build/nrf54l-fw/zephyr/zephyr.elf",
@@ -26,6 +26,6 @@
       "runToEntryPoint": "main",
       "showDevDebugOutput": "none",
       "servertype": "pyocd"
-    }
+    }    
 	]
 }
