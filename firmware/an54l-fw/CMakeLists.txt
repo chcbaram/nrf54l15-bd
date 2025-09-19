@@ -13,6 +13,7 @@ file(GLOB SRC_FILES CONFIGURE_DEPENDS
 # 하위폴더에 있는 파일까지 포함한다.
 #
 file(GLOB_RECURSE SRC_FILES_RECURSE CONFIGURE_DEPENDS
+  src/ap/modules/*.c
   src/bsp/*.c
   src/common/*.c
   src/hw/*.c
@@ -26,6 +27,8 @@ target_sources(app PRIVATE
 target_include_directories(app PRIVATE 
   src  
   src/ap
+  src/ap/modules
+  src/ap/modules/common    
   src/bsp  
   src/common
   src/common/core
@@ -35,3 +38,4 @@ target_include_directories(app PRIVATE
 )
 
 zephyr_library_include_directories(${ZEPHYR_BASE}/drivers/flash)
+zephyr_linker_sources(SECTIONS src/bsp/ldscript/ldscript.ld)

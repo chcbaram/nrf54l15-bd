@@ -5,13 +5,10 @@
 #include "uart.h"
 #include "cli.h"
 
-#ifdef _USE_HW_RTOS
-#define lock()      xSemaphoreTake(mutex_lock, portMAX_DELAY);
-#define unLock()    xSemaphoreGive(mutex_lock);
-#else
-#define lock()      
-#define unLock()    
-#endif
+#define lock()      k_mutex_lock(&mutex_lock, K_FOREVER);
+#define unLock()    k_mutex_unlock(&mutex_lock);
+
+
 
 
 typedef struct
@@ -40,9 +37,7 @@ static uint32_t log_baud = 115200;
 
 static char print_buf[256];
 
-#ifdef _USE_HW_RTOS
-static SemaphoreHandle_t mutex_lock;
-#endif
+static K_MUTEX_DEFINE(mutex_lock);
 
 
 
@@ -150,13 +145,14 @@ bool logBufPrintf(log_buf_t *p_log, char *p_data, uint32_t length)
 
 void logPrintf(const char *fmt, ...)
 {
-  lock();
 
   va_list args;
   int len;
 
-  if (is_init != true) return;
+  if (is_init != true) 
+    return;
 
+  lock();
 
   va_start(args, fmt);
   len = vsnprintf(print_buf, 256, fmt, args);

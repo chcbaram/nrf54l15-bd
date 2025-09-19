@@ -11,6 +11,8 @@ extern "C" {
 #include <zephyr/kernel.h>
 
 
+#define assert              assert_param
+#define assert_param(expr)  ((void)0U)
 
 void logPrintf(const char *fmt, ...);
 // #define logPrintf printf

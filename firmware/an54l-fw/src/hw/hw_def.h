@@ -10,9 +10,13 @@
 
 
 
+#define _HW_DEF_RTOS_THREAD_PRI_CLI           5
 #define _HW_DEF_RTOS_THREAD_PRI_UART          5
 
+#define _HW_DEF_RTOS_THREAD_MEM_CLI           (6*1024)
 #define _HW_DEF_RTOS_THREAD_MEM_UART          (2*1024)
+
+
 
 
 #define _USE_HW_QSPI
@@ -38,7 +42,7 @@
 
 #define _USE_HW_LOG
 #define      HW_LOG_CH              HW_UART_CH_SWD
-#define      HW_LOG_BOOT_BUF_MAX    2048
+#define      HW_LOG_BOOT_BUF_MAX    4096
 #define      HW_LOG_LIST_BUF_MAX    4096
 
 #define _USE_HW_BUTTON
@@ -62,6 +66,7 @@
 #define _USE_CLI_HW_ADC             1
 #define _USE_CLI_HW_GPIO            1
 #define _USE_CLI_HW_SPI             1
+#define _USE_CLI_HW_LOG             1
 
 
 typedef enum
