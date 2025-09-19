@@ -5,4 +5,7 @@
 #include "hw.h"
 
 
+#include "module.h"
+#include "system/system.h"
+
 #endif
