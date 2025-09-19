@@ -44,12 +44,19 @@
 #define _USE_HW_BUTTON
 #define      HW_BUTTON_MAX_CH       BUTTON_PIN_MAX
 
+#define _USE_HW_ADC                 
+#define      HW_ADC_MAX_CH          ADC_PIN_MAX
+
+
 
 //-- CLI
 //
 #define _USE_CLI_HW_UART            1
 #define _USE_CLI_HW_BUTTON          1
 #define _USE_CLI_HW_QSPI            1
+#define _USE_CLI_HW_ADC             1
+
+
 
 typedef enum
 {
@@ -59,5 +66,11 @@ typedef enum
   BUTTON_PIN_MAX,  
 } ButtonPinName_t;
 
+typedef enum
+{
+  ADC_NTC = 0,
+  ADC_VBAT,
+  ADC_PIN_MAX
+} AdcPinName_t;
 
 #endif
