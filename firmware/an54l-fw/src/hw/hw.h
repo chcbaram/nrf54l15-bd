@@ -28,6 +28,7 @@ extern "C" {
 #include "qspi.h"
 #include "adc.h"
 #include "gpio.h"
+#include "spi.h"
 
 
 bool hwInit(void);

@@ -144,6 +144,67 @@
   status = "okay";
 };
 
+&gpiote20 {
+  status = "okay";
+};
+
+&gpiote30 {
+  status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&uart20 {
+  status = "okay";
+  current-speed = <115200>;
+  pinctrl-0 = <&uart20_default>;
+  pinctrl-1 = <&uart20_sleep>;
+  pinctrl-names = "default", "sleep";
+};
+
+&adc {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+	channel@5 {
+		reg = <5>;
+		zephyr,gain = "ADC_GAIN_2_7";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,input-positive = <NRF_SAADC_AIN5>;
+		zephyr,resolution = <12>;
+	};	
+	channel@7 {
+		reg = <7>;
+		zephyr,gain = "ADC_GAIN_2_7";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,input-positive = <NRF_SAADC_AIN7>; 
+		zephyr,resolution = <12>;
+	};		
+};
+
+
+&spi21 {
+  compatible = "nordic,nrf-spim";
+	status = "okay";
+	pinctrl-0 = <&spi21_default>;
+	pinctrl-1 = <&spi21_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio1 8 GPIO_ACTIVE_LOW>;
+	zephyr,pm-device-runtime-auto;
+	gendev: gendev@0 {
+		compatible = "vnd,spi-device";
+		reg = <0>;
+		spi-max-frequency = <200000>;
+		label = "GenDev";
+	};
+};
+
+
 &pinctrl {
   uart00_default: uart00_default {
     group1 {
@@ -203,47 +264,21 @@
 				<NRF_PSEL(SDP_MSPI_DQ3, 2, 0)>;
 		};
 	};  
-};
 
-&gpiote20 {
-  status = "okay";
-};
+	spi21_default: spi21_default {
+		group1 {
+				psels = <NRF_PSEL(SPIM_SCK, 1, 11)>,
+						<NRF_PSEL(SPIM_MOSI, 1, 13)>,
+						<NRF_PSEL(SPIM_MISO, 1, 14)>;
+		};
+	};
 
-&gpiote30 {
-  status = "okay";
-};
-
-&uart20 {
-  status = "okay";
-  current-speed = <115200>;
-  pinctrl-0 = <&uart20_default>;
-  pinctrl-1 = <&uart20_sleep>;
-  pinctrl-names = "default", "sleep";
-};
-
-&adc {
-	status = "okay";
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "okay";
-	channel@5 {
-		reg = <5>;
-		zephyr,gain = "ADC_GAIN_2_7";
-		zephyr,reference = "ADC_REF_INTERNAL";
-		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-		zephyr,input-positive = <NRF_SAADC_AIN5>;
-		zephyr,resolution = <12>;
+	spi21_sleep: spi21_sleep {
+		group1 {
+				psels = <NRF_PSEL(SPIM_SCK, 1, 11)>,
+						<NRF_PSEL(SPIM_MOSI, 1, 13)>,
+						<NRF_PSEL(SPIM_MISO, 1, 14)>;
+				low-power-enable;
+		};
 	};	
-	channel@7 {
-		reg = <7>;
-		zephyr,gain = "ADC_GAIN_2_7";
-		zephyr,reference = "ADC_REF_INTERNAL";
-		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-		zephyr,input-positive = <NRF_SAADC_AIN7>; 
-		zephyr,resolution = <12>;
-	};		
-};
-
-&gpio0 {
-	status = "okay";
 };

@@ -50,6 +50,9 @@
 #define _USE_HW_GPIO
 #define      HW_GPIO_MAX_CH         GPIO_PIN_MAX
 
+#define _USE_HW_SPI
+#define      HW_SPI_MAX_CH          1
+
 
 //-- CLI
 //
@@ -58,6 +61,7 @@
 #define _USE_CLI_HW_QSPI            1
 #define _USE_CLI_HW_ADC             1
 #define _USE_CLI_HW_GPIO            1
+#define _USE_CLI_HW_SPI             1
 
 
 typedef enum

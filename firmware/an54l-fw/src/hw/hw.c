@@ -29,6 +29,7 @@ bool hwInit(void)
   qspiInit();
   adcInit();
   gpioInit();
+  spiInit();
   
   return true;
 }
