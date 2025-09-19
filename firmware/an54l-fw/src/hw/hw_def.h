@@ -47,6 +47,8 @@
 #define _USE_HW_ADC                 
 #define      HW_ADC_MAX_CH          ADC_PIN_MAX
 
+#define _USE_HW_GPIO
+#define      HW_GPIO_MAX_CH         GPIO_PIN_MAX
 
 
 //-- CLI
@@ -55,7 +57,7 @@
 #define _USE_CLI_HW_BUTTON          1
 #define _USE_CLI_HW_QSPI            1
 #define _USE_CLI_HW_ADC             1
-
+#define _USE_CLI_HW_GPIO            1
 
 
 typedef enum
@@ -72,5 +74,12 @@ typedef enum
   ADC_VBAT,
   ADC_PIN_MAX
 } AdcPinName_t;
+
+typedef enum
+{
+  VBAT_EN = 0,
+  STDBY,
+  GPIO_PIN_MAX
+} GpioPinName_t;
 
 #endif

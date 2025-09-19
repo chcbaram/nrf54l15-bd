@@ -160,8 +160,12 @@ float adcConvVoltage(uint8_t ch, uint32_t adc_value)
   switch (ch)
   {
     case ADC_NTC:
+      ret  = ((float)adc_value * (0.9f/(2.0f/7.0f))) / (4096.f); 
+      break;
+
     case ADC_VBAT:
       ret  = ((float)adc_value * (0.9f/(2.0f/7.0f))) / (4096.f); 
+      ret *= 2.0f;
       break;
 
     default :
