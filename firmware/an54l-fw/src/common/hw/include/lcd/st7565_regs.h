@@ -1,0 +1,77 @@
+#ifndef ST7565_REGS_H_
+#define ST7565_REGS_H_
+
+#define INITR_GREENTAB 0x0
+#define INITR_REDTAB   0x1
+#define INITR_BLACKTAB   0x2
+
+#define INITR_18GREENTAB    INITR_GREENTAB
+#define INITR_18REDTAB      INITR_REDTAB
+#define INITR_18BLACKTAB    INITR_BLACKTAB
+#define INITR_144GREENTAB   0x1
+
+#define ST7565_TFTWIDTH  128
+// for 1.44" display
+#define ST7565_TFTHEIGHT_144 128
+// for 1.8" display
+#define ST7565_TFTHEIGHT_18  160
+
+#define ST7565_NOP     0x00
+#define ST7565_SWRESET 0x01
+#define ST7565_RDDID   0x04
+#define ST7565_RDDST   0x09
+
+#define ST7565_SLPIN   0x10
+#define ST7565_SLPOUT  0x11
+#define ST7565_PTLON   0x12
+#define ST7565_NORON   0x13
+
+#define ST7565_INVOFF  0x20
+#define ST7565_INVON   0x21
+#define ST7565_DISPOFF 0x28
+#define ST7565_DISPON  0x29
+#define ST7565_CASET   0x2A
+#define ST7565_RASET   0x2B
+#define ST7565_RAMWR   0x2C
+#define ST7565_RAMRD   0x2E
+
+#define ST7565_PTLAR   0x30
+#define ST7565_COLMOD  0x3A
+#define ST7565_MADCTL  0x36
+
+#define ST7565_FRMCTR1 0xB1
+#define ST7565_FRMCTR2 0xB2
+#define ST7565_FRMCTR3 0xB3
+#define ST7565_INVCTR  0xB4
+#define ST7565_DISSET5 0xB6
+
+#define ST7565_PWCTR1  0xC0
+#define ST7565_PWCTR2  0xC1
+#define ST7565_PWCTR3  0xC2
+#define ST7565_PWCTR4  0xC3
+#define ST7565_PWCTR5  0xC4
+#define ST7565_VMCTR1  0xC5
+
+#define ST7565_RDID1   0xDA
+#define ST7565_RDID2   0xDB
+#define ST7565_RDID3   0xDC
+#define ST7565_RDID4   0xDD
+
+#define ST7565_PWCTR6  0xFC
+
+#define ST7565_GMCTRP1 0xE0
+#define ST7565_GMCTRN1 0xE1
+
+// Color definitions
+#define ST7565_BLACK   0x0000
+#define ST7565_BLUE    0x001F
+#define ST7565_RED     0xF800
+#define ST7565_GREEN   0x07E0
+#define ST7565_CYAN    0x07FF
+#define ST7565_MAGENTA 0xF81F
+#define ST7565_YELLOW  0xFFE0
+#define ST7565_WHITE   0xFFFF
+
+
+
+#endif 

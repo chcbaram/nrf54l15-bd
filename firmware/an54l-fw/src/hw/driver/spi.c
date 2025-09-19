@@ -32,7 +32,8 @@ static spi_t spi_tbl[SPI_MAX_CH];
 
 const static spi_hw_t spi_hw_tbl[SPI_MAX_CH] = 
   {
-    {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), SPI_WORD_SET(8) | SPI_TRANSFER_MSB, 0)},
+    // {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), SPI_WORD_SET(8) | SPI_TRANSFER_MSB, 0)},
+    {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB | SPI_MODE_CPHA | SPI_MODE_CPOL), 0)},    
   };
 
 static bool spiInitHw(uint8_t ch);
@@ -230,13 +231,37 @@ uint16_t spiTransfer16(uint8_t ch, uint16_t data)
 
 bool spiTransfer(uint8_t ch, uint8_t *tx_buf, uint8_t *rx_buf, uint32_t length, uint32_t timeout)
 {
-  bool ret = true;
-  spi_t  *p_spi = &spi_tbl[ch];
+  bool      ret = true;
+  spi_hw_t *p_hw = spi_tbl[ch].p_hw;
+  int       err;
 
-  if (p_spi->is_open == false) return false;
+  struct spi_buf     tx_spi_buf     = {.buf = (void *)tx_buf, .len = length};
+  struct spi_buf_set tx_spi_buf_set = {.buffers = &tx_spi_buf, .count = 1};
+  struct spi_buf     rx_spi_bufs    = {.buf = rx_buf, .len = length};
+  struct spi_buf_set rx_spi_buf_set = {.buffers = &rx_spi_bufs, .count = 1};
+
+  if (spi_tbl[ch].is_open == false) 
+    return false;
 
 
-  ret = spiTransmitReceive8(ch, tx_buf, rx_buf, length, timeout);
+  if (rx_buf == NULL)
+  {
+    err = spi_write_dt(&p_hw->h_dt, &tx_spi_buf_set);
+    if (err < 0) 
+      ret = false;
+  }
+  else if (tx_buf == NULL)
+  {
+    err = spi_read_dt(&p_hw->h_dt, &rx_spi_buf_set);
+    if (err < 0) 
+      ret = false;
+  }
+  else
+  {
+    err = spi_transceive_dt(&p_hw->h_dt, &tx_spi_buf_set, &rx_spi_buf_set);
+    if (err < 0) 
+      ret = false;
+  }
 
   return ret;
 }

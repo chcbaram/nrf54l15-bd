@@ -57,6 +57,13 @@
 #define _USE_HW_SPI
 #define      HW_SPI_MAX_CH          1
 
+#define _USE_HW_LCD
+#define      HW_LCD_LVGL            1
+#define _USE_HW_ST7565
+#define      HW_ST7565_MODEL        0
+#define      HW_LCD_WIDTH           132
+#define      HW_LCD_HEIGHT          32
+
 
 //-- CLI
 //
@@ -88,6 +95,9 @@ typedef enum
 {
   VBAT_EN = 0,
   STDBY,
+  LCD_RST,
+  LCD_CD,
+  LCD_CS,
   GPIO_PIN_MAX
 } GpioPinName_t;
 

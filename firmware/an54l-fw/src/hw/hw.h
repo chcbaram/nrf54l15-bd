@@ -29,6 +29,7 @@ extern "C" {
 #include "adc.h"
 #include "gpio.h"
 #include "spi.h"
+#include "lcd.h"
 
 
 bool hwInit(void);
