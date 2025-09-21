@@ -59,8 +59,7 @@
 
 #define _USE_HW_LCD
 #define      HW_LCD_LVGL            1
-#define _USE_HW_ST7565
-#define      HW_ST7565_MODEL        0
+#define _USE_HW_ST7567
 #define      HW_LCD_WIDTH           132
 #define      HW_LCD_HEIGHT          32
 

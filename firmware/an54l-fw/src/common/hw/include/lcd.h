@@ -16,7 +16,7 @@ extern "C" {
 
 #ifdef _USE_HW_LCD
 
-#ifdef HW_LCD_LVGL
+#if HW_LCD_LVGL == 1
 #include "lvgl/lvgl.h"
 #endif
 
@@ -28,7 +28,6 @@ extern "C" {
 #define GETG(c) (((c) & 0x07E0)>>5)
 #define GETB(c) ((c) & 0x1F)
 #define RGB2COLOR(r, g, b) ((((r>>3)<<11) | ((g>>2)<<5) | (b>>3)))
-
 
 
 #if 1
@@ -106,6 +105,7 @@ typedef struct lcd_driver_t_
   bool     (*init)(void);
   bool     (*reset)(void);
   void     (*setWindow)(int32_t x, int32_t y, int32_t w, int32_t h);
+  void     (*setRotation)(uint8_t mode);
   uint16_t (*getWidth)(void);
   uint16_t (*getHeight)(void);
   bool     (*setCallBack)(void (*p_func)(void));
@@ -114,7 +114,11 @@ typedef struct lcd_driver_t_
 } lcd_driver_t;
 
 
-#ifdef HW_LCD_LVGL
+#if HW_LCD_LVGL == 1
+
+#ifdef __cplusplus
+#define LVGL_IMG_DEF(var_name) extern "C" lvgl_img_t var_name;
+#else
 #define LVGL_IMG_DEF(var_name) extern lvgl_img_t var_name;
 #endif
 
@@ -126,6 +130,7 @@ typedef struct
   int16_t w;
   int16_t h;
 } image_t;
+#endif
 
 
 bool lcdInit(void);
@@ -146,6 +151,8 @@ void lcdSetWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 void lcdSendBuffer(uint8_t *p_data, uint32_t length, uint32_t timeout_ms);
 void lcdDisplayOff(void);
 void lcdDisplayOn(void);
+void lcdSetRotation(uint8_t mode);
+void lcdSetCallbackDraw(void (*func)(void));
 
 void     lcdSetFps(int32_t fps);
 uint32_t lcdGetFps(void);
@@ -159,8 +166,8 @@ uint16_t *lcdGetFrameBuffer(void);
 uint16_t *lcdGetCurrentFrameBuffer(void);
 void lcdSetDoubleBuffer(bool enable);
 
-void lcdDrawPixel(uint16_t x_pos, uint16_t y_pos, uint32_t rgb_code);
-void lcdDrawPixelMix(uint16_t x_pos, uint16_t y_pos, uint32_t rgb_code, uint8_t mix);
+void lcdDrawPixel(int16_t x_pos, int16_t y_pos, uint32_t rgb_code);
+void lcdDrawPixelMix(int16_t x_pos, int16_t y_pos, uint32_t rgb_code, uint8_t mix);
 void lcdDrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1,uint16_t color);
 void lcdDrawVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
 void lcdDrawHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
@@ -177,14 +184,17 @@ void lcdPrintf(int x, int y, uint16_t color,  const char *fmt, ...);
 void lcdSetFont(LcdFont font);
 LcdFont lcdGetFont(void);
 void lcdPrintfResize(int x, int y, uint16_t color,  float ratio_h, const char *fmt, ...);
+void lcdPrintfRect(int x, int y, int w, int h, uint16_t color, float ratio, uint16_t align, const char *fmt, ...);
 void lcdSetResizeMode(LcdResizeMode mode);
+uint32_t lcdGetStrWidth(const char *fmt, ...);
 
-#ifdef HW_LCD_LVGL
+#if HW_LCD_LVGL == 1
 image_t lcdCreateImage(lvgl_img_t *p_lvgl_img, int16_t x, int16_t y, int16_t w, int16_t h);
 void lcdDrawImage(image_t *p_img, int16_t x, int16_t y);
 void lcdLogoOn(void);
 void lcdLogoOff(void);
 bool lcdLogoIsOn(void);
+void lcdLogoDraw(int16_t x, int16_t y);
 #endif
 
 #endif /* _USE_HW_LCD */

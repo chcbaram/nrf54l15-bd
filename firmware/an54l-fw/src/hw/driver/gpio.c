@@ -48,10 +48,15 @@ bool gpioInit(void)
   {
     gpio_flags_t extra_flags;
 
-    extra_flags = gpio_tbl[i].mode == _DEF_OUTPUT ? GPIO_OUTPUT:GPIO_INPUT;
+    extra_flags = (gpio_tbl[i].mode & _DEF_OUTPUT) ? GPIO_OUTPUT:GPIO_INPUT;
     if (gpio_pin_configure_dt(&gpio_tbl[i].h_dt, extra_flags) < 0)
     {
       ret = false;
+    }
+
+    if (gpio_tbl[i].mode & _DEF_OUTPUT)
+    {
+      gpioPinWrite(i, gpio_tbl[i].init_value);
     }
   }
 

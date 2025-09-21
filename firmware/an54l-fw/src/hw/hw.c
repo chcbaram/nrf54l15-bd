@@ -1,5 +1,4 @@
 #include "hw.h"
-#include "lcd/st7565.h"
 
 
 
@@ -31,7 +30,8 @@ bool hwInit(void)
   gpioInit();
   spiInit();
   
-  st7565Init();
+  lcdInit();
+  lcdSetFps(20);  
 
   return true;
 }
