@@ -5,8 +5,8 @@
 #include "bsp.h"
 
 
-#define _DEF_FIRMWATRE_VERSION      "V250912R1"
-#define _DEF_BOARD_NAME             "NRF54L15-FW"
+#define _DEF_FIRMWATRE_VERSION      "V250928R1"
+#define _DEF_BOARD_NAME             "XIAO-NRF54L15-FW"
 
 
 

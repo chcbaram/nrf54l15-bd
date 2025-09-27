@@ -31,6 +31,14 @@
 				"interface/cmsis-dap.cfg",
 				"target/nordic/nrf54l.cfg"
 			],
+      "overrideLaunchCommands": [
+        "monitor mww 0x5004b500 0x101",
+        "load",
+      ],       
+      "overrideRestartCommands": [
+        "monitor mww 0x5004b500 0x101",
+        "load",
+      ],           
 			"searchDir": [],
 			"runToEntryPoint": "main",
 			"showDevDebugOutput": "none"
