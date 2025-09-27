@@ -1,0 +1,8 @@
+board:
+  name: XIAO_NRF54L15
+  vendor: BARAM
+  socs:
+  - name: nrf54l15
+    variants:
+    - name: xip
+      cpucluster: cpuflpr

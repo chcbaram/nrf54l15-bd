@@ -1,0 +1,10 @@
+identifier: XIAO_NRF54L15/nrf54l15/cpuapp
+name: XIAO_NRF54L15
+vendor: BARAM
+arch: arm
+toolchain:
+  - zephyr
+sysbuild: true
+ram: 188
+flash: 1428
+supported: []

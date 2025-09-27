@@ -1,0 +1,10 @@
+identifier: NRF54L15_BD/nrf54l15/cpuflpr
+name: nrf54l15_bd
+vendor: baram
+arch: riscv
+toolchain:
+  - zephyr
+sysbuild: true
+ram: 96
+flash: 96
+supported: []

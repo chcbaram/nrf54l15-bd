@@ -1,0 +1,10 @@
+identifier: XIAO_NRF54L15/nrf54l15/cpuflpr
+name: XIAO_NRF54L15
+vendor: BARAM
+arch: riscv
+toolchain:
+  - zephyr
+sysbuild: true
+ram: 96
+flash: 96
+supported: []
