@@ -47,6 +47,9 @@
 #define _USE_HW_BUTTON
 #define      HW_BUTTON_MAX_CH       BUTTON_PIN_MAX
 
+#define _USE_HW_ADC                 
+#define      HW_ADC_MAX_CH          ADC_PIN_MAX
+
 
 //-- CLI
 //
@@ -54,6 +57,7 @@
 #define _USE_CLI_HW_BUTTON          1
 #define _USE_CLI_HW_QSPI            1
 #define _USE_CLI_HW_LOG             1
+#define _USE_CLI_HW_ADC             1
 
 
 typedef enum
@@ -64,5 +68,12 @@ typedef enum
   BTN3,
   BUTTON_PIN_MAX,  
 } ButtonPinName_t;
+
+typedef enum
+{
+  ADC_CH1 = 0,
+  ADC_CH2,
+  ADC_PIN_MAX
+} AdcPinName_t;
 
 #endif

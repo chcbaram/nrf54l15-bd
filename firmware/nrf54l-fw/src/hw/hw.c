@@ -27,6 +27,7 @@ bool hwInit(void)
   
   buttonInit();
   qspiInit();
-
+  adcInit();
+  
   return true;
 }

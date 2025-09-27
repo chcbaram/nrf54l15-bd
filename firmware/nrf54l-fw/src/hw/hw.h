@@ -26,6 +26,7 @@ extern "C" {
 #include "ws2812.h"
 #include "qbuffer.h"
 #include "qspi.h"
+#include "adc.h"
 
 bool hwInit(void);
 
