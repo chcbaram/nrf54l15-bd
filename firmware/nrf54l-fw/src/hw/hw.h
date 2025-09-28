@@ -27,6 +27,7 @@ extern "C" {
 #include "qbuffer.h"
 #include "qspi.h"
 #include "adc.h"
+#include "eeprom.h"
 
 bool hwInit(void);
 

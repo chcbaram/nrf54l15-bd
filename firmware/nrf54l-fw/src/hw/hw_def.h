@@ -50,6 +50,9 @@
 #define _USE_HW_ADC                 
 #define      HW_ADC_MAX_CH          ADC_PIN_MAX
 
+#define _USE_HW_EEPROM
+#define      HW_EEPROM_MAX_SIZE     (1*1024)
+
 
 //-- CLI
 //
@@ -58,6 +61,7 @@
 #define _USE_CLI_HW_QSPI            1
 #define _USE_CLI_HW_LOG             1
 #define _USE_CLI_HW_ADC             1
+#define _USE_CLI_HW_EEPROM          1
 
 
 typedef enum

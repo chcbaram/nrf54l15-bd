@@ -28,6 +28,7 @@ bool hwInit(void)
   buttonInit();
   qspiInit();
   adcInit();
+  eepromInit();
   
   return true;
 }

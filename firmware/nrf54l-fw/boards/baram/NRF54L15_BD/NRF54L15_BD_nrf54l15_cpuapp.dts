@@ -38,6 +38,15 @@
 		io-channels = <&adc 2>, <&adc 4>;
 		io-channel-names = "A0", "A1";
 	};  
+
+	eeprom0: eeprom0 {
+		status="okay";
+		compatible = "zephyr,emu-eeprom";
+		partition = <&storage_partition>;
+		size = <DT_SIZE_K(1)>;
+		pagesize = <DT_SIZE_K(4)>;
+		rambuf;
+	};  
 };
 
 / {
