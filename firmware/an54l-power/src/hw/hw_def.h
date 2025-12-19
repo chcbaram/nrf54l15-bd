@@ -59,9 +59,9 @@
 
 #define _USE_HW_LCD
 #define      HW_LCD_LVGL            1
-#define _USE_HW_ST7567
-#define      HW_LCD_WIDTH           132
-#define      HW_LCD_HEIGHT          32
+#define _USE_HW_SSD1315
+#define      HW_LCD_WIDTH           128
+#define      HW_LCD_HEIGHT          64
 
 
 //-- CLI
@@ -97,6 +97,7 @@ typedef enum
   LCD_RST,
   LCD_CD,
   LCD_CS,
+  LCD_POWER,  
   GPIO_PIN_MAX
 } GpioPinName_t;
 

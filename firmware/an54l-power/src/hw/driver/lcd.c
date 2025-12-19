@@ -7,7 +7,7 @@
 #include "gpio.h"
 #include "hangul/han.h"
 #include "lcd/lcd_fonts.h"
-#include "lcd/st7567.h"
+#include "lcd/ssd1315.h"
 #include "resize.h"
 
 
@@ -86,8 +86,8 @@ bool lcdInit(void)
   backlight_value = 100;
 
 
-  is_init = st7567Init();
-  st7567InitDriver(&lcd);
+  is_init = ssd1315Init();
+  ssd1315InitDriver(&lcd);
 
   lcd.setCallBack(transferDoneISR);
 
@@ -169,11 +169,11 @@ void lcdSetBackLight(uint8_t value)
 #else
   if (backlight_value > 0)
   {
-    gpioPinWrite(_PIN_DEF_BL_CTL, _DEF_HIGH);
+    // gpioPinWrite(_PIN_DEF_BL_CTL, _DEF_HIGH);
   }
   else
   {
-    gpioPinWrite(_PIN_DEF_BL_CTL, _DEF_LOW);
+    // gpioPinWrite(_PIN_DEF_BL_CTL, _DEF_LOW);
   }
 #endif
 }

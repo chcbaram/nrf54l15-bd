@@ -11,7 +11,7 @@
 		zephyr,sram = &cpuapp_sram;
 		zephyr,flash = &cpuapp_rram;
 		zephyr,flash-controller = &rram_controller;
-    zephyr,console = &uart20;
+    // zephyr,console = &uart20;
 	};
 
   leds {
@@ -51,7 +51,7 @@
 		};
   };
 
-  lcd_gpio {    		
+  gpios {    		
 		compatible = "gpio-leds";
     lcd_rst: lcd_rst {			
       gpios = <&gpio2 7 GPIO_ACTIVE_HIGH>;     
@@ -73,6 +73,20 @@
 			label = "lcd_power";
 		};    
 		
+    spi_cs: spi_cs {			
+      gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;     
+			label = "spi_cs";			 
+    };	
+		
+    // spi_dummy0: spi_dummy0 {			
+    //   gpios = <&gpio2 3 GPIO_ACTIVE_HIGH>;     
+		// 	label = "spi_dummy0";			 
+    // };	
+
+    // spi_dummy1: spi_dummy1 {			
+    //   gpios = <&gpio2 0 GPIO_ACTIVE_HIGH>;     
+		// 	label = "spi_dummy1";			 
+    // };				
   };
 
 	zephyr,user {
@@ -80,68 +94,6 @@
 		io-channel-names = "A0", "A1";
 	};
 };
-
-/ {
-	reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
-
-		softperipheral_ram: memory@2003c000 {
-			reg = <0x2003c000 0x4000>;
-			ranges = <0 0x2003c000 0x4000>;
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			sqspi: sqspi@3b40 {
-				compatible = "nordic,nrf-sqspi";
-				#address-cells = <1>;
-				#size-cells = <0>;
-				reg = <0x3b40 0x200>;
-				status = "okay";
-				zephyr,pm-device-runtime-auto;
-			};
-		};
-	};
-};
-
-&cpuflpr_vpr {
-	pinctrl-0 = <&sqspi_default>;
-	pinctrl-1 = <&sqspi_sleep>;
-	pinctrl-names = "default", "sleep";
-	interrupts = <76 NRF_DEFAULT_IRQ_PRIORITY>;
-	status = "okay";
-};
-
-&sqspi {
-	w25q32jv: w25q32jv@0 {
-		compatible = "jedec,mspi-nor";
-		status = "okay";
-		reg = <0>;
-		jedec-id = [ef 40 16];
-    quad-enable-requirements = "S2B1v1";
-		sfdp-bfp = [
-			e5 20 f1 ff  ff ff ff 03  44 eb 08 6b  08 3b 04 bb
-			ee ff ff ff  ff ff 00 ff  ff ff 00 ff  0c 20 0f 52
-			10 d8 00 ff  23 72 f5 00  82 ed 04 cc  44 83 68 44
-			30 b0 30 b0  f7 c4 d5 5c  00 be 29 ff  f0 d0 ff ff
-		];
-		size = <0x4000000>;
-		has-dpd;
-		t-enter-dpd = <3000>;
-		t-exit-dpd = <30000>;
-		t-reset-pulse = <10000>;
-		t-reset-recovery = <35000>;
-
-		mspi-max-frequency = <DT_FREQ_M(8)>;
-		mspi-io-mode = "MSPI_IO_MODE_QUAD_1_1_4";
-		mspi-data-rate = "MSPI_DATA_RATE_SINGLE";
-		mspi-hardware-ce-num = <1>;
-		mspi-cpp-mode = "MSPI_CPP_MODE_0";
-		mspi-endian = "MSPI_BIG_ENDIAN";
-		mspi-ce-polarity = "MSPI_CE_ACTIVE_LOW";
-	};
-}; 
 
 &grtc {
 	owned-channels = <0 1 2 3 4 5 6 7 8 9 10 11>;
@@ -180,13 +132,13 @@
 	status = "okay";
 };
 
-&uart20 {
-  status = "okay";
-  current-speed = <115200>;
-  pinctrl-0 = <&uart20_default>;
-  pinctrl-1 = <&uart20_sleep>;
-  pinctrl-names = "default", "sleep";
-};
+// &uart20 {
+//   status = "okay";
+//   current-speed = <115200>;
+//   pinctrl-0 = <&uart20_default>;
+//   pinctrl-1 = <&uart20_sleep>;
+//   pinctrl-names = "default", "sleep";
+// };
 
 &adc {
 	status = "okay";
@@ -226,8 +178,26 @@
 		spi-max-frequency = <2000000>;
 		label = "GenDev";
 	};
+
+	// anomaly-58-workaround;
 };
 
+// &spi22 {
+// 	compatible = "nordic,nrf-spim";
+// 	status = "okay";
+// 	pinctrl-0 = <&spi22_default>;
+// 	pinctrl-1 = <&spi22_sleep>;
+// 	pinctrl-names = "default", "sleep";
+// 	// zephyr,pm-device-runtime-auto;
+// 	spi_flash: spi_flash@0 {
+// 		compatible = "vnd,spi-device";
+// 		reg = <0>;
+// 		spi-max-frequency = <8000000>;
+// 		label = "spi_flash";
+// 	};
+
+// 	anomaly-58-workaround;
+// };
 
 &pinctrl {
   uart00_default: uart00_default {
@@ -261,34 +231,6 @@
     };
   };
 
-	sqspi_default: sqspi_default {
-		group1 {
-			psels = <NRF_PSEL(SDP_MSPI_SCK, 2, 1)>,
-				<NRF_PSEL(SDP_MSPI_CS0, 2, 5)>,
-				<NRF_PSEL(SDP_MSPI_DQ0, 2, 2)>;
-			nordic,drive-mode = <NRF_DRIVE_E0E1>;
-		};
-		group2 {
-			psels = <NRF_PSEL(SDP_MSPI_DQ1, 2, 4)>,
-				<NRF_PSEL(SDP_MSPI_DQ2, 2, 3)>,
-				<NRF_PSEL(SDP_MSPI_DQ3, 2, 0)>;
-			nordic,drive-mode = <NRF_DRIVE_E0E1>;
-			bias-pull-up;
-		};
-	};
-
-	sqspi_sleep: sqspi_sleep {
-		group1 {
-			low-power-enable;
-			psels = <NRF_PSEL(SDP_MSPI_SCK, 2, 1)>,
-				<NRF_PSEL(SDP_MSPI_CS0, 2, 5)>,
-				<NRF_PSEL(SDP_MSPI_DQ0, 2, 2)>,
-				<NRF_PSEL(SDP_MSPI_DQ1, 2, 4)>,
-				<NRF_PSEL(SDP_MSPI_DQ2, 2, 3)>,
-				<NRF_PSEL(SDP_MSPI_DQ3, 2, 0)>;
-		};
-	};  
-
 	spi21_default: spi21_default {
 		group1 {
 				psels = <NRF_PSEL(SPIM_SCK,  2, 6)>,
@@ -305,4 +247,22 @@
 				low-power-enable;
 		};
 	};	
+
+	// spi22_default: spi22_default {
+	// 	group1 {
+	// 		psels = <NRF_PSEL(SPIM_SCK, 2, 1)>,
+	// 						<NRF_PSEL(SPIM_MISO, 2, 4)>,
+	// 						<NRF_PSEL(SPIM_MOSI, 2, 2)>;
+	// 	};
+	// };
+
+	// spi22_sleep: spi22_sleep {
+	// 	group1 {
+	// 		psels = <NRF_PSEL(SPIM_SCK, 2, 1)>,
+	// 						<NRF_PSEL(SPIM_MOSI, 2, 2)>,
+	// 						<NRF_PSEL(SPIM_MISO, 2, 4)>;
+	// 		low-power-enable;
+	// 	};
+	// };
 };
+

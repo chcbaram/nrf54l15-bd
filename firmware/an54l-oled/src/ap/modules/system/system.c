@@ -36,7 +36,7 @@ void systemMain(void)
 
   while(1)
   {
-    ledToggle(_DEF_LED1);
+    // ledToggle(_DEF_LED1);
 
     if (init_ret)
       delay(500);

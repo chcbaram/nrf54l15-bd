@@ -19,8 +19,6 @@
 
 
 
-#define _USE_HW_QSPI
-
 
 #define _USE_HW_LED
 #define      HW_LED_MAX_CH          1
@@ -63,6 +61,9 @@
 #define      HW_LCD_WIDTH           128
 #define      HW_LCD_HEIGHT          64
 
+#define _USE_HW_SPI_FLASH
+#define      HW_SPI_FLASH_ADDR      0x90000000
+
 
 //-- CLI
 //
@@ -98,6 +99,7 @@ typedef enum
   LCD_CD,
   LCD_CS,
   LCD_POWER,
+  SPI_CS,
   GPIO_PIN_MAX
 } GpioPinName_t;
 

@@ -30,6 +30,7 @@ extern "C" {
 #include "gpio.h"
 #include "spi.h"
 #include "lcd.h"
+#include "spi_flash.h"
 #include "resize.h"
 
 

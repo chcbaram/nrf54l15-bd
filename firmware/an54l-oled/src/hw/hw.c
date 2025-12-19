@@ -25,10 +25,10 @@ bool hwInit(void)
   logPrintf("Booting..Time \t\t: %s\r\n", __TIME__);   
   
   buttonInit();
-  qspiInit();
   adcInit();
   gpioInit();
   spiInit();
+  // spiFlashInit();
   
   lcdInit();
   lcdSetFps(20);  

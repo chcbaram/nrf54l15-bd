@@ -65,7 +65,7 @@ bool uartInit(void)
     uart_tbl[i].tx_cnt = 0;    
   }
 
-  console_init();
+  // console_init();
 
   is_init = true;
 
@@ -135,7 +135,7 @@ static int uartReadThread(void *args)
   {
     size_t rx_len;
 
-    rx_len = console_read(NULL, console_rx_buf, 1);
+    // rx_len = console_read(NULL, console_rx_buf, 1);
     qbufferWrite(&uart_tbl[0].qbuffer, console_rx_buf, rx_len);    
   }
   return 0;
@@ -201,7 +201,7 @@ uint32_t uartWrite(uint8_t ch, uint8_t *p_data, uint32_t length)
   switch(ch)
   {
     case _DEF_UART1:
-      ret = console_write(NULL, (const void *)p_data, length);
+      // ret = console_write(NULL, (const void *)p_data, length);
       break;
 
     case _DEF_UART2:
