@@ -32,7 +32,6 @@ static spi_t spi_tbl[SPI_MAX_CH];
 
 const static spi_hw_t spi_hw_tbl[SPI_MAX_CH] = 
   {
-    // {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), SPI_WORD_SET(8) | SPI_TRANSFER_MSB, 0)},
     {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB | SPI_MODE_CPHA | SPI_MODE_CPOL), 0)},    
   };
 
@@ -94,6 +93,10 @@ bool spiInitHw(uint8_t ch)
         logPrintf("[E_] spi : SPI device is not ready, err: %d\n", err);
         return 0;
       }
+    
+      // PM resume (필요시)
+      // pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
+
       // pm_device_action_run(dev, PM_DEVICE_ACTION_SUSPEND);
       break;
 
