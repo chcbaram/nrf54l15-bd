@@ -33,7 +33,7 @@ static void cliCmd(cli_args_t *args);
 bool spiFlashInit(void)
 {
   bool ret = true;
-  uint8_t id_tbl[4];
+  volatile uint8_t id_tbl[4];
 
   ret = spiFlashReset();
 

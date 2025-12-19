@@ -34,7 +34,7 @@ const static spi_hw_t spi_hw_tbl[SPI_MAX_CH] =
 {
   // {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), SPI_WORD_SET(8) | SPI_TRANSFER_MSB, 0)},
   {SPI_DT_SPEC_GET(DT_NODELABEL(gendev),    (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB | SPI_MODE_CPHA | SPI_MODE_CPOL), 0)},
-  // {SPI_DT_SPEC_GET(DT_NODELABEL(spi_flash), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB | SPI_MODE_CPHA | SPI_MODE_CPOL), 0)},
+  {SPI_DT_SPEC_GET(DT_NODELABEL(spi_flash), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB ), 0)},
 };
 
 static bool spiInitHw(uint8_t ch);
@@ -95,7 +95,7 @@ bool spiInitHw(uint8_t ch)
       }
       
       // PM resume (필요시)
-      // pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
+      pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
       
       
       err = spi_is_ready_dt(&spi_hw_tbl[ch].h_dt);
