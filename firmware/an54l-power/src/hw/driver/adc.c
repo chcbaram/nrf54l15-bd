@@ -4,6 +4,7 @@
 
 #ifdef _USE_HW_ADC
 #include <zephyr/drivers/adc.h>
+#include <zephyr/pm/device.h>
 
 #include "cli.h"
 #include "cli_gui.h"
@@ -39,6 +40,8 @@ static SemaphoreHandle_t mutex_lock;
 #endif
 static bool is_init = false;
 
+const struct device *adc_dev = DEVICE_DT_GET(DT_NODELABEL(adc));
+
 
 static int16_t adc_data_buf[ADC_MAX_CH];
 
@@ -47,6 +50,9 @@ static const adc_tbl_t adc_tbl[ADC_MAX_CH] =
   {ADC_DT_SPEC_GET_BY_NAME(DT_PATH(zephyr_user), a0), NAME_DEF(ADC_NTC) },
   {ADC_DT_SPEC_GET_BY_NAME(DT_PATH(zephyr_user), a1), NAME_DEF(ADC_VBAT)},
 };
+
+
+
 
 
 bool adcInit(void)
@@ -77,7 +83,6 @@ bool adcInit(void)
       break;
     }
   }
-
 
   is_init = ret;
 

@@ -43,6 +43,8 @@ bool spiDmaTxTransfer(uint8_t ch, void *buf, uint32_t length, uint32_t timeout);
 bool spiDmaTxIsDone(uint8_t ch);
 void spiAttachTxInterrupt(uint8_t ch, void (*func)());
 
+bool spiSuspend(uint8_t ch);
+bool spiResume(uint8_t ch);
 
 #endif
 

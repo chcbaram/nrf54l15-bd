@@ -32,7 +32,7 @@ static const gpio_tbl_t gpio_tbl[GPIO_MAX_CH] =
   {GPIO_DT_SPEC_GET(DT_NODELABEL(lcd_rst),   gpios), _DEF_OUTPUT, _DEF_HIGH, _DEF_LOW, _DEF_HIGH, NAME_DEF(LCD_RST)  },
   {GPIO_DT_SPEC_GET(DT_NODELABEL(lcd_cd),    gpios), _DEF_OUTPUT, _DEF_HIGH, _DEF_LOW, _DEF_HIGH, NAME_DEF(LCD_CD)   },
   {GPIO_DT_SPEC_GET(DT_NODELABEL(lcd_cs),    gpios), _DEF_OUTPUT, _DEF_HIGH, _DEF_LOW, _DEF_HIGH, NAME_DEF(LCD_CS)   },
-  {GPIO_DT_SPEC_GET(DT_NODELABEL(lcd_power), gpios), _DEF_OUTPUT, _DEF_HIGH, _DEF_LOW, _DEF_HIGH, NAME_DEF(LCD_POWER)},
+  {GPIO_DT_SPEC_GET(DT_NODELABEL(lcd_power), gpios), _DEF_OUTPUT, _DEF_HIGH, _DEF_LOW, _DEF_LOW,  NAME_DEF(LCD_POWER)},
 };
 
 static uint8_t gpio_data[GPIO_MAX_CH];
