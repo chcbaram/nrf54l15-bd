@@ -21,7 +21,7 @@ void apInit(void)
   delay(500);
   lcdClear(black);
 
-  gpioPinWrite(LCD_POWER, _DEF_LOW);
+  lcdSuspend();
   // uartSuspend(_DEF_CH1);
 
   systemInit();

@@ -137,6 +137,9 @@ bool lcdInit(void);
 bool lcdIsInit(void);
 void lcdReset(void);
 
+bool lcdSuspend(void);
+bool lcdResume(void);
+
 uint8_t lcdGetBackLight(void);
 void    lcdSetBackLight(uint8_t value);
 

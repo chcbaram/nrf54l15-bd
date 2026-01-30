@@ -40,6 +40,7 @@ static lcd_driver_t lcd;
 
 
 static bool is_init = false;
+static bool is_suspended = false;
 static volatile bool is_tx_done = true;
 static uint8_t backlight_value = 100;
 static uint8_t frame_index = 0;
@@ -118,6 +119,36 @@ bool lcdInit(void)
   cliAdd("lcd", cliLcd);
 #endif
 
+  return true;
+}
+
+bool lcdSuspend(void)
+{
+  if (is_suspended)
+  {
+    return true;
+  }
+  is_suspended = true;
+
+  gpioPinWrite(LCD_POWER, _DEF_LOW);
+  gpioPinWrite(LCD_RST, _DEF_LOW);  
+  return true;
+}
+
+bool lcdResume(void)
+{  
+  if (!is_suspended)
+  {
+    return true;
+  }
+  gpioPinWrite(LCD_POWER, _DEF_HIGH);
+  gpioPinWrite(LCD_RST, _DEF_HIGH);
+  delay(20);
+
+  lcd.reset();
+  lcdUpdateDraw();
+
+  is_suspended = false;
   return true;
 }
 
@@ -425,6 +456,10 @@ bool lcdRequestDraw(void)
     return false;
   }
   if (lcd_request_draw == true)
+  {
+    return false;
+  }
+  if (is_suspended)
   {
     return false;
   }
@@ -1112,10 +1147,25 @@ void cliLcd(cli_args_t *args)
     ret = true;
   }
 
+  if (args->argc == 1 && args->isStr(0, "on") == true)
+  {
+    cliPrintf("lcd resume\n");
+    lcdResume();
+    ret = true;
+  }
+
+  if (args->argc == 1 && args->isStr(0, "off") == true)
+  {
+    cliPrintf("lcd suspend\n");
+    lcdSuspend();
+    ret = true;
+  }
+
   if (ret != true)
   {
     cliPrintf("lcd test\n");
     cliPrintf("lcd bl 0~100\n");
+    cliPrintf("lcd on:off\n");
   }
 }
 #endif
