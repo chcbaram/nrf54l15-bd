@@ -4,7 +4,7 @@
 
 
 #ifdef _USE_HW_SH1106
-// #include "spi.h"
+#include "i2c.h"
 #include "gpio.h"
 
 #define _PIN_DEF_DC     LCD_CD
@@ -12,8 +12,38 @@
 #define _PIN_DEF_RST    LCD_RST
 
 
+#define CHARGEPUMP          0x8D
+#define COLUMNADDR          0x21
+#define COMSCANDEC          0xC8
+#define COMSCANINC          0xC0
+#define DISPLAYALLON        0xA5
+#define DISPLAYALLON_RESUME 0xA4
+#define DISPLAYOFF          0xAE
+#define DISPLAYON           0xAF
+#define EXTERNALVCC         0x1
+#define INVERTDISPLAY       0xA7
+#define MEMORYMODE          0x20
+#define NORMALDISPLAY       0xA6
+#define PAGEADDR            0x22
+#define PAGESTARTADDRESS    0xB0
+#define SEGREMAP            0xA1
+#define SETCOMPINS          0xDA
+#define SETCONTRAST         0x81
+#define SETDISPLAYCLOCKDIV  0xD5
+#define SETDISPLAYOFFSET    0xD3
+#define SETHIGHCOLUMN       0x10
+#define SETLOWCOLUMN        0x00
+#define SETMULTIPLEX        0xA8
+#define SETPRECHARGE        0xD9
+#define SETSEGMENTREMAP     0xA1
+#define SETSTARTLINE        0x40
+#define SETVCOMDETECT       0xDB
+#define SWITCHCAPVCC        0x2
 
-// static uint8_t spi_ch = _DEF_SPI1;
+
+
+static uint8_t i2c_ch = _DEF_CH1;
+static uint8_t i2c_dev = 0x3C; 
 static uint8_t rotation_mode = 0;
 static void (*frameCallBack)(void) = NULL;
 
@@ -74,6 +104,11 @@ bool sh1106Reset(void)
   // gpioPinWrite(_PIN_DEF_RST, _DEF_HIGH);
   // delay(100);
 
+  if (!i2cIsBegin(i2c_ch))
+  {
+    i2cBegin(i2c_ch, 400);
+  }
+
   sh1106InitRegs();
 
   sh1106Fill(black);
@@ -96,89 +131,55 @@ uint16_t sh1106GetHeight(void)
 
 void writecommand(uint8_t c)
 {
-  // gpioPinWrite(_PIN_DEF_DC, _DEF_LOW);
-  // gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
-
-  // spiTransfer8(spi_ch, c);
-
-  // gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
+  i2cWriteByte(i2c_ch, i2c_dev, 0x80, c, 10);
 }
-
-// void writedata(uint8_t d)
-// {
-//   gpioPinWrite(_PIN_DEF_DC, _DEF_HIGH);
-//   gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
-
-//   spiTransfer8(spi_ch, d);
-
-//   gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
-// }
 
 void sh1106InitRegs(void)
 {
   /* Init LCD */
 
-  #if 1
-  writecommand(0xAE); //display off
-  writecommand(0x20); //Set Memory Addressing Mode
-  writecommand(0x10); //00,Horizontal Addressing Mode;01,Vertical Addressing Mode;10,Page Addressing Mode (RESET);11,Invalid
-  writecommand(0xB0); //Set Page Start Address for Page Addressing Mode,0-7
-  writecommand(0xC8); //Set COM Output Scan Direction
-  writecommand(0x00); //---set low column address
-  writecommand(0x10); //---set high column address
-  writecommand(0x40); //--set start line address
-  writecommand(0x81); //--set contrast control register
-  writecommand(0xFF);
-  writecommand(0xA1); //--set segment re-map 0 to 127
-  writecommand(0xA6); //--set normal display
-  writecommand(0xA8); //--set multiplex ratio(1 to 64)
-  writecommand(0x3F); //
-  writecommand(0xA4); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
-  writecommand(0xD3); //-set display offset
-  writecommand(0x00); //-not offset
-  writecommand(0xD5); //--set display clock divide ratio/oscillator frequency
-  writecommand(0xF0); //--set divide ratio
-  writecommand(0xD9); //--set pre-charge period
-  writecommand(0x22); //
-  writecommand(0xDA); //--set com pins hardware configuration
+  writecommand(0xAE); /*display off*/
+
+  writecommand(0x02);  /*set lower column address*/
+  writecommand(0x10);  /*set higher column address*/
+
+  writecommand(0x40);  /*set display start line*/
+
+  writecommand(0xB0);  /*set page address*/
+
+  writecommand(0x81);  /*contract control*/
+  writecommand(0xff);  /*128*/
+
+  writecommand(0xA1);  /*set segment remap*/
+
+  writecommand(0xA6);  /*normal / reverse*/
+
+  writecommand(0xA8);  /*multiplex ratio*/
+  writecommand(0x3F);  /*duty = 1/64*/
+
+  writecommand(0xad);  /*set charge pump enable*/
+  writecommand(0x8b);  /*    0x8B    코묩VCC   */
+
+  writecommand(0x33);  /*0X30---0X33  set VPP   9V */
+
+  writecommand(0xC8);  /*Com scan direction*/
+
+  writecommand(0xD3);  /*set display offset*/
+  writecommand(0x00);  /*   0x20  */
+
+  writecommand(0xD5);  /*set osc division*/
+  writecommand(0x80);
+
+  writecommand(0xD9);  /*set pre-charge period*/
+  writecommand(0x1f);  /*0x22*/
+
+  writecommand(0xDA);  /*set COM pins*/
   writecommand(0x12);
-  writecommand(0xDB); //--set vcomh
-  writecommand(0x20); //0x20,0.77xVcc
-  writecommand(0x8D); //--set DC-DC enable
-  writecommand(0x14); //
-  writecommand(0xAF); //--turn on SSD1306 panel
-  #else
-	writecommand(0xAE);//--turn off oled panel
-	writecommand(0x00);//---set low column address
-	writecommand(0x10);//---set high column address
-	writecommand(0x40);//--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
-	writecommand(0x81);//--set contrast control register
-	writecommand(0x80); // Set SEG Output Current Brightness
-	writecommand(0xA1);//--Set SEG/Column Mapping     0xa0���ҷ��� 0xa1����
-	writecommand(0xC8);//Set COM/Row Scan Direction   0xc0���·��� 0xc8����
-	writecommand(0xA6);//--set normal display
-	writecommand(0xA8);//--set multiplex ratio(1 to 64)
-	writecommand(0x3f);//--1/64 duty
-	writecommand(0xD3);//-set display offset	Shift Mapping RAM Counter (0x00~0x3F)
-	writecommand(0x00);//-not offset
-	writecommand(0xd5);//--set display clock divide ratio/oscillator frequency
-	writecommand(0x80);//--set divide ratio, Set Clock as 100 Frames/Sec
-	writecommand(0xD9);//--set pre-charge period
-	writecommand(0xF1);//Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
-	writecommand(0xDA);//--set com pins hardware configuration
-	writecommand(0x12);
-	writecommand(0xDB);//--set vcomh
-	writecommand(0x40);//Set VCOM Deselect Level
-	writecommand(0x20);//-Set Page Addressing Mode (0x00/0x01/0x02)
-	writecommand(0x02);//
-	writecommand(0x8D);//--set Charge Pump enable/disable
-	writecommand(0x94);//--set(0x10) disable
-	writecommand(0xA4);// Disable Entire Display On (0xa4/0xa5)
-	writecommand(0xA6);// Disable Inverse Display On (0xa6/a7) 
-	writecommand(0xAF); /*display ON*/ 
 
-  #endif
+  writecommand(0xdb);  /*set vcomh*/
+  writecommand(0x40);
 
+  writecommand(0xAF);  /*display ON*/
 }
 
 void sh1106SetRotation(uint8_t mode)
@@ -227,25 +228,18 @@ bool sh1106DrawFrame(void)
 {
   uint8_t i;
   
-  // spiResume(spi_ch);
+
   for (i = 0; i < 8; i++)
   {
     writecommand(0xB0 + i);
-    writecommand(0x00);
+    writecommand(0x02);
     writecommand(0x10);
 
-    // for (int j=0; j<HW_LCD_WIDTH; j++)
-    // {
-    //   gpioPinWrite(_PIN_DEF_DC, _DEF_HIGH);
-    //   gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
-
-    //   // spiTransfer(spi_ch, &frame_buffer[HW_LCD_WIDTH * i], NULL, HW_LCD_WIDTH, 50);
-    //   spiTransfer(spi_ch, &frame_buffer[HW_LCD_WIDTH * i + j], NULL, 1, 10);
-      
-    //   gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH); 
-    // }
+    if (i2cWriteBytes(i2c_ch, i2c_dev, 0x40, &frame_buffer[HW_LCD_WIDTH * i], HW_LCD_WIDTH, 100) == false)
+    {
+      return false;
+    }    
   }
-  // spiSuspend(spi_ch);
 
   return true;
 }

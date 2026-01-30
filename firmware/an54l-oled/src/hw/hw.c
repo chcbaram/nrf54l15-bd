@@ -29,6 +29,7 @@ bool hwInit(void)
   gpioInit();
   spiInit();
   spiFlashInit();  
+  i2cInit();
   
   lcdInit();
   lcdSetFps(20);  

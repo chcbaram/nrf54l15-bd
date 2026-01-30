@@ -182,6 +182,21 @@
 			low-power-enable;
 		};
 	};
+
+	i2c30_default: i2c30_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 1)>, 
+			        <NRF_PSEL(TWIM_SCL, 0, 0)>;
+		};
+	};
+
+	i2c30_sleep: i2c30_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 1)>, 
+			        <NRF_PSEL(TWIM_SCL, 0, 0)>;
+			low-power-enable;
+		};
+	};
 };
 
 &spi00 {
@@ -197,4 +212,12 @@
 		spi-max-frequency = <32000000>;
 		label = "GenDev";
 	};	
+};
+
+&i2c30 {
+	status = "okay";
+	pinctrl-0 = <&i2c30_default>;
+	pinctrl-1 = <&i2c30_sleep>;
+	pinctrl-names = "default", "sleep";
+	clock-frequency = <I2C_BITRATE_FAST>;  /* 400kHz */
 };

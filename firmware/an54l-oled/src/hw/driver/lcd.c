@@ -1091,10 +1091,7 @@ void cliLcd(cli_args_t *args)
         lcdPrintf(0,16*3, white, "%d ms free" , lcdGetFpsTime() - lcdGetDrawTime());
         lcdPrintfResize(0, 120, green, 24, "폰트 크기 24");
 
-        lcdDrawFillRect( 0, 70, 10, 10, red);
-        lcdDrawFillRect(10, 70, 10, 10, green);
-        lcdDrawFillRect(20, 70, 10, 10, blue);
-
+        lcdDrawRect( 0, 0, LCD_WIDTH, LCD_HEIGHT, white);
         lcdRequestDraw();
       }
     }

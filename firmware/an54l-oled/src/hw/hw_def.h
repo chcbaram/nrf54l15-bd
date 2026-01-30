@@ -65,6 +65,9 @@
 #define _USE_HW_SPI_FLASH
 #define      HW_SPI_FLASH_ADDR      0x90000000
 
+#define _USE_HW_I2C
+#define      HW_I2C_MAX_CH          1
+
 
 //-- CLI
 //
@@ -75,6 +78,7 @@
 #define _USE_CLI_HW_SPI             1
 #define _USE_CLI_HW_LOG             1
 #define _USE_CLI_HW_SPI_FLASH       1
+#define _USE_CLI_HW_I2C             1
 
 
 
