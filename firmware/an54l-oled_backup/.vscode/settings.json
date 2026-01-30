@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "adc.h": "c",
+    "st7567.h": "c",
+    "st7567_regs.h": "c"
+  }
+}

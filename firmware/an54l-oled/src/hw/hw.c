@@ -28,7 +28,7 @@ bool hwInit(void)
   adcInit();
   gpioInit();
   spiInit();
-  spiFlashInit();
+  spiFlashInit();  
   
   lcdInit();
   lcdSetFps(20);  

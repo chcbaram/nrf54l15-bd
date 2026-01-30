@@ -5,6 +5,8 @@
 #include "qbuffer.h"
 #include "cli.h"
 #include <zephyr/console/console.h>
+#include <zephyr/pm/device.h>
+#include <zephyr/drivers/uart.h>
 
 #define UART_RX_BUF_LENGTH        1024
 
@@ -52,6 +54,9 @@ K_THREAD_DEFINE(uart_read_thread,
                 uartReadThread, NULL, NULL, NULL,
                 _HW_DEF_RTOS_THREAD_PRI_UART, 0, 50);
 
+const struct device *uart20_dev = DEVICE_DT_GET(DT_NODELABEL(uart20));
+
+
 
 
 
@@ -65,7 +70,7 @@ bool uartInit(void)
     uart_tbl[i].tx_cnt = 0;    
   }
 
-  // console_init();
+  console_init();
 
   is_init = true;
 
@@ -83,6 +88,38 @@ bool uartDeInit(void)
 bool uartIsInit(void)
 {
   return is_init;
+}
+
+bool uartSuspend(uint8_t ch)
+{
+  int err;
+
+  err = device_is_ready(uart20_dev);
+  if (!err)
+  {
+    logPrintf("[E_] uart : UART device is not ready, err: %d\n", err);
+    return false;
+  }
+    
+  pm_device_action_run(uart20_dev, PM_DEVICE_ACTION_SUSPEND);
+  
+  return true;
+}
+
+bool uartResume(uint8_t ch)
+{
+  int err;
+
+  err = device_is_ready(uart20_dev);
+  if (!err)
+  {
+    logPrintf("[E_] uart : UART device is not ready, err: %d\n", err);
+    return false;
+  }
+    
+  pm_device_action_run(uart20_dev, PM_DEVICE_ACTION_RESUME);
+  
+  return true;
 }
 
 bool uartOpen(uint8_t ch, uint32_t baud)
@@ -135,8 +172,9 @@ static int uartReadThread(void *args)
   {
     size_t rx_len;
 
-    // rx_len = console_read(NULL, console_rx_buf, 1);
+    rx_len = console_read(NULL, console_rx_buf, 1);
     qbufferWrite(&uart_tbl[0].qbuffer, console_rx_buf, rx_len);    
+    // delay(1000);
   }
   return 0;
 }
@@ -201,7 +239,7 @@ uint32_t uartWrite(uint8_t ch, uint8_t *p_data, uint32_t length)
   switch(ch)
   {
     case _DEF_UART1:
-      // ret = console_write(NULL, (const void *)p_data, length);
+      ret = console_write(NULL, (const void *)p_data, length);
       break;
 
     case _DEF_UART2:

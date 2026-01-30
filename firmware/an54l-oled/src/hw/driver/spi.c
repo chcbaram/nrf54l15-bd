@@ -30,15 +30,14 @@ typedef struct
 static spi_t spi_tbl[SPI_MAX_CH];
 
 
-const static spi_hw_t spi_hw_tbl[SPI_MAX_CH] =
-{
-  // {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), SPI_WORD_SET(8) | SPI_TRANSFER_MSB, 0)},
-  {SPI_DT_SPEC_GET(DT_NODELABEL(gendev),    (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB | SPI_MODE_CPHA | SPI_MODE_CPOL), 0)},
-  {SPI_DT_SPEC_GET(DT_NODELABEL(spi_flash), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB ), 0)},
-};
+const static spi_hw_t spi_hw_tbl[SPI_MAX_CH] = 
+  {
+    {SPI_DT_SPEC_GET(DT_NODELABEL(gendev), (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_LINES_SINGLE | SPI_TRANSFER_MSB), 0)},    
+  };
+
+const struct device* const dev = DEVICE_DT_GET(DT_NODELABEL(gendev));
 
 static bool spiInitHw(uint8_t ch);
-
 
 
 
@@ -70,9 +69,10 @@ bool spiBegin(uint8_t ch)
   switch(ch)
   {
     case _DEF_SPI1:
-    case _DEF_SPI2:      
-      p_spi->is_open = spiInitHw(ch);
-      ret = p_spi->is_open;
+    case _DEF_SPI2:
+      spiInitHw(ch);
+      p_spi->is_open = true;
+      ret = true;
       break;
   }
 
@@ -87,23 +87,19 @@ bool spiInitHw(uint8_t ch)
   switch(ch)
   {
     case _DEF_SPI1:
-    case _DEF_SPI2:
-      // PM 활성화 추가
-      if (!device_is_ready(spi_hw_tbl[ch].h_dt.bus)) {
-        logPrintf("[E_] spi : SPI bus device not found\n");
-        return false;
-      }
-      
-      // PM resume (필요시)
-      pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
-      
-      
       err = spi_is_ready_dt(&spi_hw_tbl[ch].h_dt);
       if (!err)
       {
         logPrintf("[E_] spi : SPI device is not ready, err: %d\n", err);
-        return false;
+        return 0;
       }
+    
+      // PM resume (필요시)
+      // pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
+      // pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_SUSPEND);
+      break;
+
+    case _DEF_SPI2:
       break;
 
     default:
@@ -112,6 +108,38 @@ bool spiInitHw(uint8_t ch)
   }
 
   return ret;
+}
+
+bool spiSuspend(uint8_t ch)
+{
+  int err;
+
+  err = spi_is_ready_dt(&spi_hw_tbl[ch].h_dt);
+  if (!err)
+  {
+    logPrintf("[E_] spi : SPI device is not ready, err: %d\n", err);
+    return false;
+  }
+    
+  pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_SUSPEND);
+  
+  return true;
+}
+
+bool spiResume(uint8_t ch)
+{
+  int err;
+
+  err = spi_is_ready_dt(&spi_hw_tbl[ch].h_dt);
+  if (!err)
+  {
+    logPrintf("[E_] spi : SPI device is not ready, err: %d\n", err);
+    return false;
+  }
+    
+  pm_device_action_run(spi_hw_tbl[ch].h_dt.bus, PM_DEVICE_ACTION_RESUME);
+  
+  return true;
 }
 
 void spiSetDataMode(uint8_t ch, uint8_t dataMode)

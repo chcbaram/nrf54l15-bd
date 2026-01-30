@@ -49,7 +49,7 @@ void cliThread(void const *arg)
   logPrintf("[%s] Thread Started : CLI\n", init_ret ? "OK":"E_" );
   while(1)
   {
-    // cliMain();
+    cliMain();
     delay(5);
   }
 }

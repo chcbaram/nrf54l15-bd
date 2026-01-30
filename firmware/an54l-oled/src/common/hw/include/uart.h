@@ -25,6 +25,8 @@ uint32_t uartPrintf(uint8_t ch, const char *fmt, ...);
 uint32_t uartGetBaud(uint8_t ch);
 uint32_t uartGetRxCnt(uint8_t ch);
 uint32_t uartGetTxCnt(uint8_t ch);
+bool     uartSuspend(uint8_t ch);
+bool     uartResume(uint8_t ch);
 
 #ifdef __cplusplus
 }

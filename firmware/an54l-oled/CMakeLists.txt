@@ -37,5 +37,4 @@ target_include_directories(app PRIVATE
   src/lib
 )
 
-# zephyr_library_include_directories(${ZEPHYR_BASE}/drivers/flash)
 zephyr_linker_sources(SECTIONS src/bsp/ldscript/ldscript.ld)

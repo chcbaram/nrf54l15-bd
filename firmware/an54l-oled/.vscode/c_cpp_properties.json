@@ -16,7 +16,7 @@
             "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "nordic-semiconductor.nrf-connect",
             "compileCommands":[
-                "./build/an54l-oled/compile_commands.json"
+                "./build/an54l-fw/compile_commands.json"
             ]
         }
     ],

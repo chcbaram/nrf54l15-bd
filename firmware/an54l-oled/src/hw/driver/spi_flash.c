@@ -13,7 +13,7 @@
 
 
 static bool is_init = false;
-static uint8_t spi_ch = _DEF_SPI2;
+static uint8_t spi_ch = _DEF_SPI1;
 
 
 
@@ -33,7 +33,7 @@ static void cliCmd(cli_args_t *args);
 bool spiFlashInit(void)
 {
   bool ret = true;
-  volatile uint8_t id_tbl[4];
+  uint8_t id_tbl[4];
 
   ret = spiFlashReset();
 
@@ -41,16 +41,16 @@ bool spiFlashInit(void)
   {
     if (spiFlashGetID(id_tbl, 4) == true)
     {
-      if (id_tbl[1] == 0xEF && id_tbl[2] == 0x40 && id_tbl[3] == 0x18)
+      if (id_tbl[1] == 0xEF && id_tbl[2] == 0x40 && id_tbl[3] == 0x16)
       {
         logPrintf("[OK] spiFlashInit()\n");
-        logPrintf("     W25Q128JV Found\r\n");
+        logPrintf("     W25Q32JV Found\r\n");
         ret = true;
       }
       else
       {
         logPrintf("[E_] spiFlashInit()\n");
-        logPrintf("     W25Q128JV Not Found %X %X %X\r\n", id_tbl[1], id_tbl[2], id_tbl[3]);      
+        logPrintf("     W25Q32JV Not Found %X %X %X\r\n", id_tbl[1], id_tbl[2], id_tbl[3]);      
         ret = false;
       }
     }

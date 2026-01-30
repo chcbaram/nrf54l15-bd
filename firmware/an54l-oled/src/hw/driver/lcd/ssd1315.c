@@ -196,7 +196,7 @@ void ssd1315Fill(uint32_t color)
 
   for(i = 0; i < sizeof(frame_buffer); i++)
   {
-    frame_buffer[i] = (color > 0) ? 0x00 : 0xFF;
+    frame_buffer[i] = (color > 0) ? 0xFF : 0x00;
   }
 }
 
@@ -227,20 +227,25 @@ bool ssd1315DrawFrame(void)
 {
   uint8_t i;
   
-
+  // spiResume(spi_ch);
   for (i = 0; i < 8; i++)
   {
     writecommand(0xB0 + i);
     writecommand(0x00);
     writecommand(0x10);
 
-    gpioPinWrite(_PIN_DEF_DC, _DEF_HIGH);
-    gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
+    for (int j=0; j<HW_LCD_WIDTH; j++)
+    {
+      gpioPinWrite(_PIN_DEF_DC, _DEF_HIGH);
+      gpioPinWrite(_PIN_DEF_CS, _DEF_LOW);
 
-    spiTransfer(spi_ch, &frame_buffer[HW_LCD_WIDTH * i], NULL, HW_LCD_WIDTH, 50);
-
-    gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH);
+      // spiTransfer(spi_ch, &frame_buffer[HW_LCD_WIDTH * i], NULL, HW_LCD_WIDTH, 50);
+      spiTransfer(spi_ch, &frame_buffer[HW_LCD_WIDTH * i + j], NULL, 1, 10);
+      
+      gpioPinWrite(_PIN_DEF_CS, _DEF_HIGH); 
+    }
   }
+  // spiSuspend(spi_ch);
 
   return true;
 }

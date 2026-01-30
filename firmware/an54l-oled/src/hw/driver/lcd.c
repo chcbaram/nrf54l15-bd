@@ -7,7 +7,7 @@
 #include "gpio.h"
 #include "hangul/han.h"
 #include "lcd/lcd_fonts.h"
-#include "lcd/ssd1315.h"
+#include "lcd/sh1106.h"
 #include "resize.h"
 
 
@@ -86,8 +86,8 @@ bool lcdInit(void)
   backlight_value = 100;
 
 
-  is_init = ssd1315Init();
-  ssd1315InitDriver(&lcd);
+  is_init = sh1106Init();
+  sh1106InitDriver(&lcd);
 
   lcd.setCallBack(transferDoneISR);
 

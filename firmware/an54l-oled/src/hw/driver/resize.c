@@ -106,7 +106,7 @@ void resizeImage(resize_image_t *src, resize_image_t *dest)
 #define AFFINEWARP_QSHIFT  0
 #define AFFINEWARP_COEFFMASK  0xFFFF
 
-#define round2int32(dbl) ( floor((dbl) +0.5))
+#define round2int32(dbl) ( floor((dbl) + 0.5f))
 
 
 
